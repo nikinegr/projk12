@@ -8,10 +8,6 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, FormView, TemplateView
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
-from pathlib import Path
-from django.core.files import File
-from .serializers import UserSerializer
-from .models import Post
 from .forms import PostForm
 from django.db.models import Q
 
@@ -175,44 +171,44 @@ class FormPage (FormView):
 
 
 
-class TestPage(TemplateView):
-    template_name = 'test.html'
-
-
-    def get(self, request, *args, **kwargs):
-        user = User.objects.all()
-        serializer = UserSerializer(user, many=True)
-        return JsonResponse(serializer.data, sate=False)
-
-
-    def get_context_data(self, **kwargs):
-         context = super().get_context_data(**kwargs)
-         task = Project.objects.filter(projecttask=project)
-         projects = Project.objects.get(id=self.kwargs['id'])
-         context['tasks'] = task
-         context['project'] = projects
-         return context
-
-
-    def post(self, request):
-         data = request.POST
-         print(data['test'])
-         return JsonResponse({'resp': 'OK'}, safe=False)
-
-
-    def post(self, request, wargs):
-        data = request.POST
-        if len(data.keys())== 5:
-            project = Project.objects.get(id=self.kwargs["10"])
-            task = Task(text=data['text'])
-            task.save()
-            return JsonResponse({"resp:OK"})
-        elif len(data.keys()) == 2:
-            task = Task.ojects.get(id=int(data['id']))
-            resp = render_to_string('edit_form.html', {'form': TaskCreateForm(initial={'name': task.name,
-                                                                                       'deadline':task.deadline,
-                                                                                        'status': task.status})})
-            return JsonResponse (resp, safe=False)
+# class TestPage(TemplateView):
+#     template_name = 'test.html'
+#
+#
+#     def get(self, request, *args, **kwargs):
+#         user = User.objects.all()
+#         serializer = UserSerializer(user, many=True)
+#         return JsonResponse(serializer.data, sate=False)
+#
+#
+#     def get_context_data(self, **kwargs):
+#          context = super().get_context_data(**kwargs)
+#          task = Project.objects.filter(projecttask=project)
+#          projects = Project.objects.get(id=self.kwargs['id'])
+#          context['tasks'] = task
+#          context['project'] = projects
+#          return context
+#
+#
+#     def post(self, request):
+#          data = request.POST
+#          print(data['test'])
+#          return JsonResponse({'resp': 'OK'}, safe=False)
+#
+#
+#     def post(self, request, wargs):
+#         data = request.POST
+#         if len(data.keys())== 5:
+#             project = Project.objects.get(id=self.kwargs["10"])
+#             task = Task(text=data['text'])
+#             task.save()
+#             return JsonResponse({"resp:OK"})
+#         elif len(data.keys()) == 2:
+#             task = Task.ojects.get(id=int(data['id']))
+#             resp = render_to_string('edit_form.html', {'form': TaskCreateForm(initial={'name': task.name,
+#                                                                                        'deadline':task.deadline,
+#                                                                                         'status': task.status})})
+#             return JsonResponse (resp, safe=False)
 
 
 
