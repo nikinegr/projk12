@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{ project.text }} <a href="/edit_project/{{ project.id }}">Edit</a></h1>
+    {% for i in tasks %}
+    <div id="task{{ i.id }}">
+        <p>{{ i.text }} <button data-url="/project/{{ project.id }}/" class="edit button" id="{id}}">Edit</button></p>
+    </div>
+
+    {% endfor %}
+    {% csrf_token %}
+    {{ form }}
+    <input id="btn" type="submit" data-url="/project/{{ project.id }}/">
+
+        <p>{{ i.title }}</p>
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+</body>
+</html>
